@@ -1,6 +1,8 @@
 Architecture Documentation of Group Sokoban
 ===========================================
 
+This project is about the development of a distributed Sokoban game that can be played across a network of different clients. The project's architecture documentation is structured according to the arc42 template. The software requirements specification is compliant to the IEEE Std 830-1998.
+
 .. toctree::
     :caption: Table of Contents
     :numbered:
