@@ -5,18 +5,26 @@ Sokoban is a puzzle video game where a player controls a character called the So
 
 Our customer Hawki employed us to create a distributed Sokoban game, that can be played in both single and multiplayer modes.
 
-1.1 Requirements Overview
--------------------------
+.. rubric:: Main features of the distributed Sokoban game
+  :heading-level: 3
 
+- **Client-Server architecture**: clients can connect to the game server, that manages all connected clients and synchronizes game states across them. The server also validates the player actions.
+- **Sokoban Game Engine**: implements the core game logic and thus features like player movements, game board related operations and game state updates
+- **Different game modes**: our Sokoban features a single player mode and two different multiplayer modes (cooperative and competitive)
+- **Power-ups and -downs**: the Sokoban game boards feature different power-ups and downs like increased/decreased movement speed or the ability to pass through walls, to make the game entertaining and versatile
+- **AI Assistance**: players can toggle AI assistance during game sessions, if they are stuck on the current puzzle
+- **User and Account Management**: players can register and authenicate for the distributed Sokoban game. They are also able to manage their profiles and view player statistics and leaderboards for the ranked multiplayer mode
+- **Map Editor**: players can use the map editor to create and share custom Sokoban maps
+- **Community and Social Interaction**: players have the option to spectate ongoing multiplayer sessions and exchange in-game chat messages with each other.
+- **Progress and Statistics**: players of our game can track their gameplay staticstics and share their scores and achievements
 
-
-1.2 (Quality) Goals
--------------------
+(Quality) Goals
+---------------
 
 The main goal is to have a distributed Sokoban game. Furthermore, we have
 
-G1: Have a game server
-^^^^^^^^^^^^^^^^^^^^^^
+.. rubric:: G1: Have a game server
+  :heading-level: 4
 
 - **G1.1**: The game server sorts out the client connection and communication
 
@@ -30,8 +38,8 @@ G1: Have a game server
   - **G1.2.3**: during session management, the game server will calculate the players' scores
 
 
-G2: Gameplay
-^^^^^^^^^^^^
+.. rubric:: G2: Gameplay
+  :heading-level: 4
 
 - **G2.1**: The Sokoban (the character on the field)
 
@@ -46,8 +54,8 @@ G2: Gameplay
 - **G2.6**: There are walls enclosing the map and (potentially) on the map
 
 
-G3: Game Modes
-^^^^^^^^^^^^^^
+.. rubric:: G3: Game Modes
+  :heading-level: 4
 
 - **G3.1**: There is a single player mode
   - **G3.1.2**: An AI, that can help the player, is integrated into the single player mode
@@ -68,16 +76,16 @@ G3: Game Modes
 - **G3.4**: There is a Spectator mode
 
 
-G4: User Experience
-^^^^^^^^^^^^^^^^^^^
+.. rubric:: G4: User Experience
+  :heading-level: 4
 
 - **G4.1**: The system has a user-friendly interface that is easy to navigate
 - **G4.2**: The system provides clear and concise feedback to the user about their progress and any errors that occur
 - **G4.3**: The system allows users to customize their experience, such as choosing their own avatar or creating their own maps
 
 
-G5: AI Integration
-^^^^^^^^^^^^^^^^^^
+.. rubric:: G5: AI Integration
+  :heading-level: 4
 
 - **G5.1**: AI assistance is triggered in Co-op and Singleplayer mode by hitting a help button.
 - **G5.2**: When triggered, AI draws an arrow to indicate direction in which the next box should be moved. When box is moved in that direction the arrow disappears and AI assistance is turned off till the next help button hit comes.
@@ -85,40 +93,40 @@ G5: AI Integration
 - **G5.4**: The AI is able to provide helpful hints and suggestions to the user
 
 
-G6: Power-ups and Power-downs
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.. rubric:: G6: Power-ups and Power-downs
+  :heading-level: 4
 
 - **G6.1**: The system has a variety of power-ups and power-downs that can be used by the player
 - **G6.2**: The system has functionality for distributing power-ups and power-downs randomly throughout the game
 - **G6.3**: The system has functionality for tracking the player's use of power-ups and power-downs
 
 
-G7: Map Editor
-^^^^^^^^^^^^^^
+.. rubric:: G7: Map Editor
+  :heading-level: 4
 
 - **G7.1**: The system has a user-friendly interface for creating and editing maps
 - **G7.2**: The system has functionality for validating the player-made maps
 - **G7.3**: The system has functionality for saving and loading player-made maps
 
 
-G8: Performance
-^^^^^^^^^^^^^^^
+.. rubric:: G8: Performance
+  :heading-level: 4
 
 - **G8.1**: The system is able to handle a large number of users simultaneously
 - **G8.2**: The system is able to handle a large amount of data and game state
 - **G8.3**: The system is able to respond quickly to user input
 
 
-G9: Security
-^^^^^^^^^^^^
+.. rubric:: G9: Security
+  :heading-level: 4
 
 - **G9.1**: The system has functionality for authenticating and authorizing users
 - **G9.2**: The system has functionality for protecting user data and game state
 - **G9.3**: The system has functionality for preventing cheating and hacking
 
 
-1.3 Stakeholders
-----------------
+Stakeholders
+------------
 
 +-----------------------------+---------------------------------------------+-------------+--------------------------+
 | Role / Name                 | Concerns / Expectations                     | Importance  | Influence on the project |
