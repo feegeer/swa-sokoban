@@ -17,14 +17,14 @@ uv sync # if you still use pip: python -m venv .venv && .venv/bin/activate  &&  
 To build the documentation locally, it is sufficient to run from the repository root
 
 ```bash
-make html
+uv run make html
 ```
 
 The HTML `index.html` of the built documentation can be found under the directory `build/html`. Just open it in some browser to view it.
 
 ## Online version of the architecture documentation
 
-The online version of our architecture documentation is hosted on GitHub Pages and can be accessed [by clicking here](https://feegeer.github.io/swa-sokoban/) It is built and deployed from the `main` branch via GitHub Actions. This is the [corresponding workflow file](https://github.com/feegeer/swa-sokoban/blob/main/.github/workflows/doc.yml). The workflow is triggered whenever commits are pushed to the `main` branch. [Manual triggering](https://github.com/feegeer/swa-sokoban/actions/workflows/doc.yml) is also possible.
+The online version of our architecture documentation is hosted on GitHub Pages and can be accessed [by clicking here](https://feegeer.github.io/swa-sokoban/) It is built and deployed from the `main` branch via GitHub Actions. This is the [corresponding workflow file](https://github.com/feegeer/swa-sokoban/blob/main/.github/workflows/doc.yml). The workflow is triggered whenever commits are pushed to the `main` branch and in as a check in pull requests. [Manual triggering](https://github.com/feegeer/swa-sokoban/actions/workflows/doc.yml) is also possible.
 
 ## Contributing
 
@@ -32,7 +32,7 @@ To prevent frequent merge conflicts and ensure that the latest documentation alw
 
 - create a branch for your stuff, ideally named like the task you are currently working on, e.g. `add-domain-model`
 - add your contribution as [reStructuredText](https://www.sphinx-doc.org/en/master/usage/restructuredtext/basics.html) in the according `.rst` file under the `doc` directory
-- open a Pull Request, that you can then approve yourself. Note that you can only rebase your commits to the `main` branch if the **documentation build workflow passes** and if there are **no merge conflicts on the main branch**
+- open a Pull Request, that you can then approve yourself. Note that you can only rebase your commits to the `main` branch if the **documentation build workflow passes** and if there are **no merge conflicts with the main branch**
 
 ## Help
 
