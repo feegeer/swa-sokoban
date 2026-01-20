@@ -11,8 +11,8 @@ The project's software architecture documentation is based on the arc42 template
     :maxdepth: 1
     :glob:
 
-    Introduction and Goals <01_intro_and_goals>
-    Constraints <02_constraints>
+    Introduction and Stakeholders <01_intro_and_stakeholders>
+    Goals <02_goals>
     Context & Scope <03_context_and_scope>
     Requirements and Features <04_requirements_and_features>
     Building Block View <05_building_block_view>
