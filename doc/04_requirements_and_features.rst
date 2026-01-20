@@ -114,7 +114,7 @@ This feature manages user-specific data such as settings, controls, profiles, an
 .. rubric:: Introduction / Purpose
   :heading-level: 5
 
-Provides the underlying infrastructure for multiplayer gameplay, synchronization, and authoritative server validation.
+The Networked client-server game infrastructure deals with the communication between the server and different clients, dealing with topics such as game state synchronization, information exchange, player authentication and routing of messages from the clients to the server-sided game engine and vice versa.
 
 .. rubric:: Stimulus / Response Sequence
   :heading-level: 5
@@ -122,11 +122,10 @@ Provides the underlying infrastructure for multiplayer gameplay, synchronization
 - The authenticated user interacts with the client application during gameplay, e.g. by pressing keys.
 - At fixed, predefined time intervals, the client transmits the user's input actions to the server together with the user's session token.
 - Upon receiving the client input, the server validates the session token to ensure the action originates from an authenticated and active user.
-- The server validates each received input action against the authoritative game state, which ensures that the user action is allowed in the current game state and does not violate any logical limits (like over-long powerup durations)
-- The server updates the game state based on the validated input actions.
+- The server-sided game engine validates each received input action against the authoritative game state, which ensures that the user action is allowed in the current game state and does not violate any logical limits (like over-long powerup durations)
 - At fixed, predefined time intervals, the server distributes the updated game state to all connected clients.
 - Each client updates its local presentation of the game world based on the received game state.
-- If the server detects invalid, unauthorized, or inconsistent input actions, the server rejects the action and may trigger corrective or security measures.
+- If the game engine detects invalid, unauthorized, or inconsistent input actions, the server rejects the action and may trigger corrective or security measures.
 
 .. rubric:: Associated Functional Requirements
   :heading-level: 5
@@ -136,16 +135,12 @@ Provides the underlying infrastructure for multiplayer gameplay, synchronization
 - **FR3**: The server shall reject gameplay input messages originating from invalid, expired, or unauthenticated sessions.
 - **FR4**: The client shall transmit user input actions to the server at fixed, predefined time intervals during active gameplay.
 - **FR5**: Each gameplay request comming from a client shall include the user's current input actions and the associated session token.
-- **FR6**: The server shall validate all received user input actions against the current, validated game state.
-- **FR7**: The server shall verify that each input action is permitted for the user's current game state and role.
-- **FR8**: The server shall enforce game rule and logical constraints regarding the game when validating the input actions.
 - **FR9**: The server shall maintain the authoritative game state for all connected clients.
-- **FR10**: The server shall update the authoritative game state exclusively based on validated user input actions.
-- **FR11**: The server shall ignore or reject any input actions that fail validation and shall not apply them to the authoritative game state.
+- **FR10**: The game engine shall update the authoritative game state exclusively based on user input actions validated by the server in terms of authorization.
+- **FR11**: The server shall ignore or reject any input actions that fail validation and shall not hand them to the server-sided game engine.
 - **FR12**: The server shall distribute the updated authoritative game state to all connected clients at fixed, predefined time intervals.
 - **FR13**: Each client shall update its local game representation exclusively based on the authoritative game state received from the server.
-- **FR14**: If invalid, unauthorized, or inconsistent input actions are detected, the server shall respond according to predefined rules.
-- **FR15**: The system shall ensure that invalid input actions do not compromise the consistency or integrity of the authoritative game state.
+- **FR14**: If unauthorized actions are detected, the server shall respond according to predefined rules.
 
 .. rubric:: Sokoban Game Engine (Core Logic)
   :heading-level: 4
@@ -153,11 +148,48 @@ Provides the underlying infrastructure for multiplayer gameplay, synchronization
 .. rubric:: Introduction / Purpose
   :heading-level: 5
 
+The Sokoban Game Engine implements the core Sokoban rules, board logic, movement validation, and victory detection.
+
 .. rubric:: Stimulus / Response Sequence
   :heading-level: 5
 
+- Upon the start of a new Sokoban match, the server-side Sokoban game engine initializes an authoritative game state by loading the configured game board.
+- The initialized game board consists of a grid of tiles, including walls and traversable ground tiles, player-controlled pushers, movable boxes of which some contain a hidden powerup or -down, box storage locations ("plates")
+- The server transmits the initial authoritative game state to all clients participating in the match.
+- During gameplay, each client transmits the user's directional movement inputs to the server.
+- For each received input, the server validates the input against the authoritative game state.
+- If the input represents a valid movement action, the server updates the authoritative game state by: moving the pusher accordingly, pushing exactly one box if applicable and permitted, applying powerup or powerdown effects if a gift box is moved onto a plate.
+- If the input represents an invalid movement action, the game engine rejects the input and leaves the authoritative game state unchanged.
+- After processing validated inputs, the game engine updates the authoritative game state.
+- The game engine evaluates the authoritative game state after each update to determine whether the match completion condition is met.
+- The match is considered completed when all boxes are positioned on plates.
+- Upon match completion, the game engine calculates the final score according to defined scoring rules.
+- The server marks the match as completed and sends a match result notification, including the outcome and score, to all participating clients.
+- Upon receiving the match result notification, each client displays the match outcome and achieved score to the user.
+
 .. rubric:: Associated Functional Requirements
   :heading-level: 5
+
+**FR24**: The game engine shall initialize an authoritative game state at the start of each Sokoban match.
+**FR25**: The game engine shall load the game board, including tiles, pushers, boxes, plates, and configured powerups and powerdowns.
+**FR26**: The server-sided game engine shall be the sole authority for modifying the game state.
+**FR27**: Clients shall transmit movement inputs to the server during active gameplay.
+**FR29**: The game engine shall validate each received movement input against the authoritative game state.
+**FR30**: The game engine shall allow pusher movement only in the four cardinal directions: up, down, left, and right.
+**FR31**: The game engine shall prevent pushers from moving into wall tiles.
+**FR32**: The game engine shall prevent pushers from moving into occupied tiles unless pushing a box is permitted.
+**FR33**: The game engine shall allow a pusher to push exactly one box at a time.
+**FR34**: The game engine shall prevent pushers from pulling boxes.
+**FR36**: When a box, that was moved to a plate contains a powerup or powerdown, the game engine shall apply the corresponding effect to the pusher.
+**FR37**: The game engine shall apply powerup and powerdown effects only as a result of validated actions.
+**FR38**: The game engine shall update the authoritative game state only after successful validation and application of movement inputs.
+**FR39**: The server shall distribute the updated authoritative game state to all participating clients
+**FR40**: The game engine shall evaluate the authoritative game state after each update to determine whether the match completion condition is met.
+**FR41**: The game engine shall consider the match completed when all boxes are positioned on plates.
+**FR42**: Upon match completion, the game engine shall prevent further movement updates.
+**FR43**: Upon match completion, the game engine shall calculate a final score.
+**FR44**: The server shall send a match result notification, including the outcome and final score, to all participating clients.
+**FR45**: Upon receiving a match result notification, the client shall display the match outcome and achieved score to the user.
 
 .. rubric:: Power-Ups and Power-Downs
   :heading-level: 4
@@ -165,11 +197,35 @@ Provides the underlying infrastructure for multiplayer gameplay, synchronization
 .. rubric:: Introduction / Purpose
   :heading-level: 5
 
+Powerups-and downs are contained in a random number of boxes and buff or nerf (i.e., apply positive of negative effects on) the player's pusher's abilities. As their distribution in boxes during matches is nondeterministic, they make the game more unpredictable and and allow further strategic variation.
+
 .. rubric:: Stimulus / Response Sequence
   :heading-level: 5
 
+- During initialization of a Sokoban match, the server-side game engine designates a subset of boxes on the game board as gift boxes.
+- For each gift box, the game engine assigns either a powerup or a -down according to a predefined probability distribution.
+- The content of a gift box remains hidden during gameplay until the gift box is pushed onto a plate.
+- When a gift box is pushed onto a plate, the game engine reveals its content and determines the affected player.
+- The game engine applies the effect of the revealed powerup or -down to the affected player's pusher.
+- Applied powerup and -down effects modify the pusher's abilities for a predefined duration.
+- After the expiration of the effect duration, the game engine removes the applied effect from the pusher.
+- All powerup and powerdown assignment, activation, and expiration are enforced exclusively by the server-side game engine as part of the authoritative game state.
+
 .. rubric:: Associated Functional Requirements
   :heading-level: 5
+
+**FR33**: At match initialization, the game engine shall designate a subset of boxes as gift boxes.
+**FR34**: For each gift box, the game engine shall assign exactly one effect, either a powerup or a powerdown.
+**FR36**: The game engine shall enforce a probability of 2/3 for assigning a powerup and 1/3 for assigning a powerdown.
+**FR37**: The content of a gift box shall remain hidden from players until the gift box is pushed onto a plate.
+**FR38**: When a gift box is pushed onto a plate, the game engine shall outpu its assigned effect, such that the server can send an according message to the affected clients.
+**FR39**: Upon revealing a gift box, the game engine shall apply the associated powerup or powerdown effect to the affected player’s pusher.
+**FR40**: Powerup and powerdown effects shall be applied only as a result of validated game actions.
+**FR41**: Each powerup and powerdown effect shall have a predefined duration.
+**FR42**: The game engine shall automatically remove the applied effect from the pusher after the duration expires.
+**FR43**: The expiration of powerup and powerdown effects shall be enforced exclusively by the game engine.
+**FR44**: Players shall not be able to enable, disable, or alter powerup or powerdown effects through client-side actions.
+**FR45**: The game engine shall ensure that powerup and powerdown effects are consistently reflected in the authoritative game state.
 
 .. rubric::  Game Mode Selection (General)
   :heading-level: 4
