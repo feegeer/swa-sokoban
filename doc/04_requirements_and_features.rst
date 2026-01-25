@@ -254,27 +254,27 @@ Powerups-and downs are contained in a random number of boxes and buff or nerf (i
 Performance Requirements
 ^^^^^^^^^^^^^^^^^^^^^^^^^
 
-**NFR-P1** – the system shall process player movement inputs and update the game state within **100 ms** in single-player mode.
+**NFR-P1** - the system shall process player movement inputs and update the game state within **100 ms** in single-player mode.
 
-**NFR-P2** – in multiplayer modes, authoritative server validation and game state synchronization shall complete within **200 ms** under normal network conditions.
+**NFR-P2** - in multiplayer modes, authoritative server validation and game state synchronization shall complete within **200 ms** under normal network conditions.
 
-**NFR-P3** – AI-based hint calculation shall return a result within **2 seconds** for standard levels.
+**NFR-P3** - AI-based hint calculation shall return a result within **2 seconds** for standard levels.
 
-**NFR-P4** – map solvability validation shall respect the configured timeout (default **10 seconds**) and terminate gracefully, returning an error if exceeded.
+**NFR-P4** - map solvability validation shall respect the configured timeout (default **10 seconds**) and terminate gracefully, returning an error if exceeded.
 
-**NFR-P5** – the system shall support at least 5000 **concurrent active users** without degradation of core gameplay functionality.
+**NFR-P5** - the system shall support at least 5000 **concurrent active users** without degradation of core gameplay functionality.
 
-**NFR-P6** – the system shall support at least 200 **simultaneous multiplayer sessions per server instance**.
+**NFR-P6** - the system shall support at least 200 **simultaneous multiplayer sessions per server instance**.
 
-**NFR-P7** – matchmaking and lobby creation shall complete within **2 seconds** under normal and peak load conditions.
+**NFR-P7** - matchmaking and lobby creation shall complete within **2 seconds** under normal and peak load conditions.
 
-**NFR-P8** – the system shall handle game state synchronization for multiplayer sessions with up to **4 players** without exceeding defined latency thresholds.
+**NFR-P8** - the system shall handle game state synchronization for multiplayer sessions with up to **4 players** without exceeding defined latency thresholds.
 
-**NFR-P9** – user profile and settings data shall be loaded within **1 second** during login under normal load.
+**NFR-P9** - user profile and settings data shall be loaded within **1 second** during login under normal load.
 
-**NFR-P10** – the system shall store and retrieve custom maps of up to **512 KB** without impacting gameplay performance.
+**NFR-P10** - the system shall store and retrieve custom maps of up to **512 KB** without impacting gameplay performance.
 
-**NFR-P11** – the system shall process concurrent game state updates deterministically and without data corruption.
+**NFR-P11** - the system shall process concurrent game state updates deterministically and without data corruption.
 
 Logical Database Requirements
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -282,214 +282,214 @@ Logical Database Requirements
 User Account Data
 """"""""""""""""""
 
-**LDR-U1** – Each user account shall have a **unique identifier (UUID)** and **unique username/email** to enforce uniqueness constraints.
+**LDR-U1** - Each user account shall have a **unique identifier (UUID)** and **unique username/email** to enforce uniqueness constraints.
 
-**LDR-U2** – Authentication credentials shall be stored **hashed and salted** (per NFR-S2).
+**LDR-U2** - Authentication credentials shall be stored **hashed and salted** (per NFR-S2).
 
-**LDR-U3** – The database shall maintain a **last login timestamp** and **session token reference** to support session expiration (NFR-S7).
+**LDR-U3** - The database shall maintain a **last login timestamp** and **session token reference** to support session expiration (NFR-S7).
 
-**LDR-U4** – Rate-limiting data (e.g., failed login attempts, input bursts) shall be stored per user to enforce security constraints (NFR-S8).
+**LDR-U4** - Rate-limiting data (e.g., failed login attempts, input bursts) shall be stored per user to enforce security constraints (NFR-S8).
 
 Player Profile and Settings Data
 """"""""""""""""""""""""""""""""
 
-**LDR-P1** – Player profile information shall include **avatar selection, display name, and optional bio**.
+**LDR-P1** - Player profile information shall include **avatar selection, display name, and optional bio**.
 
-**LDR-P2** – Player settings (controls, audio, video, accessibility) shall be stored in a **separate table linked to the user account** to allow easy updates without affecting core account data.
+**LDR-P2** - Player settings (controls, audio, video, accessibility) shall be stored in a **separate table linked to the user account** to allow easy updates without affecting core account data.
 
-**LDR-P3** – Default settings shall be referenced in a **template table**, allowing resets (FR9, FR14).
+**LDR-P3** - Default settings shall be referenced in a **template table**, allowing resets (FR9, FR14).
 
-**LDR-P4** – All profile and settings data shall be **associated with exactly one user account** (foreign key constraint).
+**LDR-P4** - All profile and settings data shall be **associated with exactly one user account** (foreign key constraint).
 
-**LDR-P5** – The database shall support **versioning of settings** for backward compatibility if new features are added.
+**LDR-P5** - The database shall support **versioning of settings** for backward compatibility if new features are added.
 
 Gameplay Statistics Data
 """"""""""""""""""""""""
-**LDR-G1** – Each statistic (boxes moved, win/loss ratio, best time, best score, achievements) shall be **stored per user** and **historically recorded** for auditing and leaderboard purposes.
+**LDR-G1** - Each statistic (boxes moved, win/loss ratio, best time, best score, achievements) shall be **stored per user** and **historically recorded** for auditing and leaderboard purposes.
 
-**LDR-G2** – Aggregated data (leaderboards, matchmaking metrics) shall be **derived from raw statistics tables**, not manually stored, to ensure consistency.
+**LDR-G2** - Aggregated data (leaderboards, matchmaking metrics) shall be **derived from raw statistics tables**, not manually stored, to ensure consistency.
 
-**LDR-G3** – Statistics updates shall be **transactional**, ensuring data consistency even in multiplayer conflicts (FR24–FR32, FR46–FR56).
+**LDR-G3** - Statistics updates shall be **transactional**, ensuring data consistency even in multiplayer conflicts (FR24-FR32, FR46-FR56).
 
-**LDR-G4** – The system shall track **timestamps for each statistic update** to support time-based queries (e.g., seasonal leaderboards).
+**LDR-G4** - The system shall track **timestamps for each statistic update** to support time-based queries (e.g., seasonal leaderboards).
 
 Game Session Data
 """"""""""""""""""""
 
-**LDR-S1** – Active game sessions shall have **unique session identifiers** and store **participating user IDs**, **game mode**, **session start and end times**.
+**LDR-S1** - Active game sessions shall have **unique session identifiers** and store **participating user IDs**, **game mode**, **session start and end times**.
 
-**LDR-S2** – Game session data shall be **retained temporarily** and **discarded after session completion**, except for results required for statistics and achievements (FR83).
+**LDR-S2** - Game session data shall be **retained temporarily** and **discarded after session completion**, except for results required for statistics and achievements (FR83).
 
-**LDR-S3** – Session-related moves and game state may be **stored in memory or temporary tables** for performance efficiency (NFR-P1–P4, NFR-R3).
+**LDR-S3** - Session-related moves and game state may be **stored in memory or temporary tables** for performance efficiency (NFR-P1-P4, NFR-R3).
 
-**LDR-S4** – Session tables shall support **rollback mechanisms** in case of server failure to prevent corrupted states (NFR-R3).
+**LDR-S4** - Session tables shall support **rollback mechanisms** in case of server failure to prevent corrupted states (NFR-R3).
 
 Custom Map Data
-""""""""""""""""""""
+"""""""""""""""
 
-**LDR-M1** – Each map shall have a **unique map identifier**, **creator ID**, **validation status**, **timestamp of creation**, and **last modification timestamp**.
+**LDR-M1** - Each map shall have a **unique map identifier**, **creator ID**, **validation status**, **timestamp of creation**, and **last modification timestamp**.
 
-**LDR-M2** – Only maps **validated as solvable** shall have their status set to “approved” and be available to other players (FR84–FR86).
+**LDR-M2** - Only maps **validated as solvable** shall have their status set to “approved” and be available to other players (FR84-FR86).
 
-**LDR-M3** – Map data shall include **map layout (tiles, walls, boxes, plates)** in a **normalized schema** to optimize queries for multiplayer sessions.
+**LDR-M3** - Map data shall include **map layout (tiles, walls, boxes, plates)** in a **normalized schema** to optimize queries for multiplayer sessions.
 
-**LDR-M4** – Versioning shall be supported to allow updates to maps without overwriting user-submitted versions.
+**LDR-M4** - Versioning shall be supported to allow updates to maps without overwriting user-submitted versions.
 
 Moderation and Report Data
-"""""""""""""""""""""""""""""
+""""""""""""""""""""""""""
 
-**LDR-MOD1** – Reports shall include **report ID, reporter ID, reported player ID, reason code, timestamp, and current status**.
+**LDR-MOD1** - Reports shall include **report ID, reporter ID, reported player ID, reason code, timestamp, and current status**.
 
-**LDR-MOD2** – Moderation actions shall be **linked to reports** and include **action type, moderator ID, timestamp, and outcome**.
+**LDR-MOD2** - Moderation actions shall be **linked to reports** and include **action type, moderator ID, timestamp, and outcome**.
 
-**LDR-MOD3** – Historical moderation data shall be read-only for regular users and auditable for compliance (NFR-S5).
+**LDR-MOD3** - Historical moderation data shall be read-only for regular users and auditable for compliance (NFR-S5).
 
-**LDR-MOD4** – Reports shall support status tracking visible to the reporting player (FR88).
+**LDR-MOD4** - Reports shall support status tracking visible to the reporting player (FR88).
 
 Design Constraints
 ^^^^^^^^^^^^^^^^^^
 
-**AC1** – The solution must follow a **Client–Server architecture**.
+**AC1** - The solution must follow a **Client-Server architecture**.
 
-**AC2** – **Game session management, board generation, object placement, move validation, scoring, and cheating detection** must be performed on the server.
+**AC2** - **Game session management, board generation, object placement, move validation, scoring, and cheating detection** must be performed on the server.
 
-**AC3** – The architecture shall be **extensible to support additional client platforms** without redesigning server interfaces.
+**AC3** - The architecture shall be **extensible to support additional client platforms** without redesigning server interfaces.
 
-**AC4** – **Power-ups and power-downs** must always be enabled and cannot be disabled by players.
+**AC4** - **Power-ups and power-downs** must always be enabled and cannot be disabled by players.
 
-**AC5** – **Random gift box distribution** must enforce a bias where power-downs appear with a probability of one third.
+**AC5** - **Random gift box distribution** must enforce a bias where power-downs appear with a probability of one third.
 
-**AC6** – The **AI engine** shall be independent of the core game engine.
+**AC6** - The **AI engine** shall be independent of the core game engine.
 
-**AC7** – **AI-based hints** shall be controllable at both server level and pregame lobby level.
+**AC7** - **AI-based hints** shall be controllable at both server level and pregame lobby level.
 
-**AC8** – **Spectating** shall be limited to Cooperative-Multiplayer and Competitive-Multiplayer modes.
+**AC8** - **Spectating** shall be limited to Cooperative-Multiplayer and Competitive-Multiplayer modes.
 
-**AC9** – **User settings** must be persisted server-side and linked to a player account.
+**AC9** - **User settings** must be persisted server-side and linked to a player account.
 
-**AC10** – **Server communication** shall be versioned and protocol-compatible with multiple client versions (Portability / Maintainability).
+**AC10** - **Server communication** shall be versioned and protocol-compatible with multiple client versions (Portability / Maintainability).
 
-**AC11** – The architecture shall support **horizontal scaling**, allowing multiple game server instances to run concurrently for multiplayer sessions.
+**AC11** - The architecture shall support **horizontal scaling**, allowing multiple game server instances to run concurrently for multiplayer sessions.
 
-**AC12** – **Session state and active game data** shall be maintained in a way that allows **rollback or recovery** in case of server failures (Reliability / Availability).
+**AC12** - **Session state and active game data** shall be maintained in a way that allows **rollback or recovery** in case of server failures (Reliability / Availability).
 
-**AC13** – All **authentication and security checks** (login, moderation, matchmaking) shall occur **server-side**.
+**AC13** - All **authentication and security checks** (login, moderation, matchmaking) shall occur **server-side**.
 
-**AC14** – **Custom map validation** shall be executed **on the server**, enforcing solvability and correctness before maps are made available.
+**AC14** - **Custom map validation** shall be executed **on the server**, enforcing solvability and correctness before maps are made available.
 
-**AC15** – Game clients shall remain **stateless regarding critical game logic**, with all authoritative decisions made server-side (Consistency / Anti-cheat).
+**AC15** - Game clients shall remain **stateless regarding critical game logic**, with all authoritative decisions made server-side (Consistency / Anti-cheat).
 
-**AC16** – The architecture shall allow **modular updates** to AI, matchmaking, and scoring algorithms **without downtime** or client changes (Maintainability).
+**AC16** - The architecture shall allow **modular updates** to AI, matchmaking, and scoring algorithms **without downtime** or client changes (Maintainability).
 
 Software System Attributes
-^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Security
 """"""""
 
-**NFR-S1** – All client-server communication shall use **encrypted protocols (TLS 1.3 or higher)**.
+**NFR-S1** - All client-server communication shall use **encrypted protocols (TLS 1.3 or higher)**.
 
-**NFR-S2** – User credentials and profile data shall be stored securely using **industry-standard hashing and encryption**.
+**NFR-S2** - User credentials and profile data shall be stored securely using **industry-standard hashing and encryption**.
 
-**NFR-S3** – Only authenticated users shall access personal profiles, saved settings, or custom maps.
+**NFR-S3** - Only authenticated users shall access personal profiles, saved settings, or custom maps.
 
-**NFR-S4** – Multiplayer actions shall be **validated server-side** to prevent cheating or unauthorized game state modification.
+**NFR-S4** - Multiplayer actions shall be **validated server-side** to prevent cheating or unauthorized game state modification.
 
-**NFR-S5** – All moderation actions, reports, and administrative changes shall be **logged and auditable for at least 12 months**.
+**NFR-S5** - All moderation actions, reports, and administrative changes shall be **logged and auditable for at least 12 months**.
 
-**NFR-S6** – AI hints shall only return information about the **current player’s own puzzle state** and shall **never reveal positions, moves, or scores of other players**.
+**NFR-S6** - AI hints shall only return information about the **current player’s own puzzle state** and shall **never reveal positions, moves, or scores of other players**.
 
-**NFR-S7** – User sessions shall automatically **expire after a configurable period of inactivity** (default: 15 minutes), requiring re-authentication.
+**NFR-S7** - User sessions shall automatically **expire after a configurable period of inactivity** (default: 15 minutes), requiring re-authentication.
 
-**NFR-S8** – The system shall implement **rate-limiting on rapid input bursts** to mitigate bots, while allowing legitimate fast player actions without noticeable delay.
+**NFR-S8** - The system shall implement **rate-limiting on rapid input bursts** to mitigate bots, while allowing legitimate fast player actions without noticeable delay.
 
 
 Reliability
 """"""""""""
 
-**NFR-R1** – The system shall maintain active single-player sessions without data loss for at least **30 minutes** in the event of a client crash.
+**NFR-R1** - The system shall maintain active single-player sessions without data loss for at least **30 minutes** in the event of a client crash.
 
-**NFR-R2** – Multiplayer sessions shall continue correctly when a client temporarily disconnects for up to **60 seconds**.
+**NFR-R2** - Multiplayer sessions shall continue correctly when a client temporarily disconnects for up to **60 seconds**.
 
-**NFR-R3** – Game state shall remain consistent across all clients in multiplayer modes, even in case of partial network failures.
+**NFR-R3** - Game state shall remain consistent across all clients in multiplayer modes, even in case of partial network failures.
 
-**NFR-R4** – Solvability verification in the Map Editor shall always produce correct results; invalid boards shall never be saved.
+**NFR-R4** - Solvability verification in the Map Editor shall always produce correct results; invalid boards shall never be saved.
 
-**NFR-R5** – AI-based hints shall be generated deterministically to ensure reproducible guidance.
+**NFR-R5** - AI-based hints shall be generated deterministically to ensure reproducible guidance.
 
-**NFR-R6** – In case of unrecoverable errors, the system shall notify affected users and terminate the session cleanly.
+**NFR-R6** - In case of unrecoverable errors, the system shall notify affected users and terminate the session cleanly.
 
 
 Availability
 """""""""""""
 
-**NFR-A1** – The system shall achieve an uptime of **99.5% per month** for multiplayer servers.
+**NFR-A1** - The system shall achieve an uptime of **99.5% per month** for multiplayer servers.
 
-**NFR-A2** – Login and authentication services shall respond within **2 seconds** 95% of the time under normal load.
+**NFR-A2** - Login and authentication services shall respond within **2 seconds** 95% of the time under normal load.
 
-**NFR-A3** – Multiplayer matchmaking and lobby services shall be available **24/7** except for scheduled maintenance.
+**NFR-A3** - Multiplayer matchmaking and lobby services shall be available **24/7** except for scheduled maintenance.
 
-**NFR-A4** – During maintenance, the system shall notify users at least **1 hour in advance**.
+**NFR-A4** - During maintenance, the system shall notify users at least **1 hour in advance**.
 
-**NFR-A5** – If user actions are temporarily throttled or blocked (e.g., due to rate-limiting), the system shall **explicitly notify the user** of the remaining lockout duration instead of silently dropping requests.
+**NFR-A5** - If user actions are temporarily throttled or blocked (e.g., due to rate-limiting), the system shall **explicitly notify the user** of the remaining lockout duration instead of silently dropping requests.
 
 Maintainability
-""""""""""""""""
+"""""""""""""""
 
-**NFR-M1** – New game modes shall be integrated without modifying the core Sokoban game engine.
+**NFR-M1** - New game modes shall be integrated without modifying the core Sokoban game engine.
 
-**NFR-M2** – Power-ups, power-downs, and AI behaviors shall be configurable through external XML configuration files.
+**NFR-M2** - Power-ups, power-downs, and AI behaviors shall be configurable through external XML configuration files.
 
-**NFR-M3** – The system shall allow updates to matchmaking rules and scoring algorithms without recompiling the client.
+**NFR-M3** - The system shall allow updates to matchmaking rules and scoring algorithms without recompiling the client.
 
-**NFR-M4** – The codebase shall achieve a modular structure enabling maintenance by developers with **less than 3 months of prior experience**.
+**NFR-M4** - The codebase shall achieve a modular structure enabling maintenance by developers with **less than 3 months of prior experience**.
 
-**NFR-M5** – Map validation logic shall be maintainable such that rules or timeouts can be updated without downtime.
+**NFR-M5** - Map validation logic shall be maintainable such that rules or timeouts can be updated without downtime.
 
-**NFR-M6** – An initial ASCII-based prototype UI shall allow later transition to a graphical UI without rewriting core logic.
+**NFR-M6** - An initial ASCII-based prototype UI shall allow later transition to a graphical UI without rewriting core logic.
 
-**NFR-M7** – Community-related metadata (e.g., map ratings, approvals) shall be extensible without requiring schema redesign.
+**NFR-M7** - Community-related metadata (e.g., map ratings, approvals) shall be extensible without requiring schema redesign.
 
 
 Portability
-""""""""""""
+"""""""""""
 
-**NFR-P1** – The client shall run on **Windows 11 and macOS 13 or higher** with identical functionality.
+**NFR-P1** - The client shall run on **Windows 11 and macOS 13 or higher** with identical functionality.
 
-**NFR-P2** – The client shall support both **keyboard and standard gamepad input**.
+**NFR-P2** - The client shall support both **keyboard and standard gamepad input**.
 
-**NFR-P3** – The system shall allow server deployment on at least **two major cloud providers** without modification of application logic.
+**NFR-P3** - The system shall allow server deployment on at least **two major cloud providers** without modification of application logic.
 
-**NFR-P4** – Saved user profiles and custom maps shall be **transferable between client platforms** without data loss.
+**NFR-P4** - Saved user profiles and custom maps shall be **transferable between client platforms** without data loss.
 
-**NFR-P5** – Multiplayer communication protocol shall remain consistent regardless of client operating system.
+**NFR-P5** - Multiplayer communication protocol shall remain consistent regardless of client operating system.
 
-**NFR-P6** – User profile visibility settings (e.g., avatar, bio) shall be enforced consistently across all platforms and clients.
+**NFR-P6** - User profile visibility settings (e.g., avatar, bio) shall be enforced consistently across all platforms and clients.
 
 
 Other Requirements
-^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^
 
 Usablity
-"""""""""""
+""""""""
 
-**NFR-U1** – The user interface shall provide immediate visual feedback for user actions. During longer-taking processes, the client UI shall show a spinner/progress indicator.
+**NFR-U1** - The user interface shall provide immediate visual feedback for user actions. During longer-taking processes, the client UI shall show a spinner/progress indicator.
 
-**NFR-U2** – Key rebinding and settings changes shall be understandable without external documentation.
+**NFR-U2** - Key rebinding and settings changes shall be understandable without external documentation.
 
-**NFR-U3** – Confirmation dialogs shall clearly indicate the consequences of the user’s action.
+**NFR-U3** - Confirmation dialogs shall clearly indicate the consequences of the user’s action.
 
-**NFR-U4** – AI hints shall be displayed in a non-intrusive manner and shall not block gameplay
+**NFR-U4** - AI hints shall be displayed in a non-intrusive manner and shall not block gameplay
 
-**NFR-U5** – The user interface and main user flows shall allow players to complete common tasks with a minimal number of steps.
+**NFR-U5** - The user interface and main user flows shall allow players to complete common tasks with a minimal number of steps.
 
-**NFR17** – The UI shall be visually simple and optimized for fast loading across supported client types.
+**NFR17** - The UI shall be visually simple and optimized for fast loading across supported client types.
 
 Accessibility
-""""""""""""""
+"""""""""""""
 
-**NFR-ACC1** – The system shall support **adjustable visual settings**, including font size, buttons, menus, contrast, and color-blind-friendly color schemes.
+**NFR-ACC1** - The system shall support **adjustable visual settings**, including font size, buttons, menus, contrast, and color-blind-friendly color schemes.
 
-**NFR-ACC2** – All gameplay-relevant information shall be **conveyed through more than one sensory channel** (e.g., visual and audio) where applicable.
+**NFR-ACC2** - All gameplay-relevant information shall be **conveyed through more than one sensory channel** (e.g., visual and audio) where applicable.
 
-**NFR-ACC3** – Accessibility settings shall be **persisted per user account** and applied automatically on login.
+**NFR-ACC3** - Accessibility settings shall be **persisted per user account** and applied automatically on login.
