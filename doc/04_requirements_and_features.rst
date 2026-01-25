@@ -48,7 +48,7 @@ System Features
 ^^^^^^^^^^^^^^^
 
 User Login and Authentification
-'''''''''''''''''''''''''''''''
+"""""""""""""""""""""""""""""""
 
 .. rubric:: Introduction / Purpose
   :heading-level: 5
@@ -74,7 +74,7 @@ For login and authentification, a user
 - **FR4**: For a failed authentification, the server responds with an error message to the client request
 
 User Account and Profile Management
-'''''''''''''''''''''''''''''''''''
+"""""""""""""""""""""""""""""""""""
 
 .. rubric:: Introduction / Purpose
   :heading-level: 5
@@ -109,7 +109,7 @@ This feature manages user-specific data such as settings, controls, profiles, an
 - **FR16**: Persisted user settings shall be automatically loaded and applied by the system upon the user's next successful login.
 
 Networked Client-Server Game Infrastructure
-'''''''''''''''''''''''''''''''''''''''''''
+"""""""""""""""""""""""""""""""""""""""""""
 
 .. rubric:: Introduction / Purpose
   :heading-level: 5
@@ -136,14 +136,14 @@ The Networked client-server game infrastructure deals with the communication bet
 - **FR20**: The client shall transmit user input actions to the server at fixed, predefined time intervals during active gameplay.
 - **FR21**: Each gameplay request comming from a client shall include the user's current input actions and the associated session token.
 - **FR22**: The server shall maintain the authoritative game state for all connected clients.
-- **FR23**: The game engine shall update the authoritative game state exclusively based on user input actions validated by the server in terms of authorization.
+- **FR23**: The game engine shall update the authoritative game state exclusively based on user input actions validated by the server in terms of authorization and additionally tick-based for powerups and down effects.
 - **FR24**: The server shall ignore or reject any input actions that fail validation and shall not hand them to the server-sided game engine.
 - **FR25**: The server shall distribute the updated authoritative game state to all connected clients at fixed, predefined time intervals.
 - **FR26**: Each client shall update its local game representation exclusively based on the authoritative game state received from the server.
 - **FR27**: If unauthorized actions are detected, the server shall respond according to predefined rules.
 
 Sokoban Game Engine (Core Logic)
-''''''''''''''''''''''''''''''''
+""""""""""""""""""""""""""""""""
 
 .. rubric:: Introduction / Purpose
   :heading-level: 5
@@ -170,29 +170,29 @@ The Sokoban Game Engine implements the core Sokoban rules, board logic, movement
 .. rubric:: Associated Functional Requirements
   :heading-level: 5
 
-**FR28**: The game engine shall initialize an authoritative game state at the start of each Sokoban match.
-**FR29**: The game engine shall load the game board, including tiles, pushers, boxes, plates, and configured powerups and powerdowns.
-**FR30**: The server-sided game engine shall be the sole authority for modifying the game state.
-**FR31**: Clients shall transmit movement inputs to the server during active gameplay.
-**FR32**: The game engine shall validate each received movement input against the authoritative game state.
-**FR33**: The game engine shall allow pusher movement only in the four cardinal directions: up, down, left, and right.
-**FR34**: The game engine shall prevent pushers from moving into wall tiles.
-**FR35**: The game engine shall prevent pushers from moving into occupied tiles unless pushing a box is permitted.
-**FR36**: The game engine shall allow a pusher to push exactly one box at a time.
-**FR37**: The game engine shall prevent pushers from pulling boxes.
-**FR38**: When a box, that was moved to a plate contains a powerup or powerdown, the game engine shall apply the corresponding effect to the pusher.
-**FR39**: The game engine shall apply powerup and powerdown effects only as a result of validated actions.
-**FR40**: The game engine shall update the authoritative game state only after successful validation and application of movement inputs.
-**FR41**: The server shall distribute the updated authoritative game state to all participating clients
-**FR42**: The game engine shall evaluate the authoritative game state after each update to determine whether the match completion condition is met.
-**FR43**: The game engine shall consider the match completed when all boxes are positioned on plates.
-**FR44**: Upon match completion, the game engine shall prevent further movement updates.
-**FR45**: Upon match completion, the game engine shall calculate a final score.
-**FR46**: The server shall send a match result notification, including the outcome and final score, to all participating clients.
-**FR47**: Upon receiving a match result notification, the client shall display the match outcome and achieved score to the user.
+- **FR28**: The game engine shall initialize an authoritative game state at the start of each Sokoban match.
+- **FR29**: The game engine shall load the game board, including tiles, pushers, boxes, plates, and configured powerups and powerdowns.
+- **FR30**: The server-sided game engine shall be the sole authority for modifying the game state.
+- **FR31**: Clients shall transmit movement inputs to the server during active gameplay.
+- **FR32**: The game engine shall validate each received movement input against the authoritative game state.
+- **FR33**: The game engine shall allow pusher movement only in the four cardinal directions: up, down, left, and right.
+- **FR34**: The game engine shall prevent pushers from moving into wall tiles.
+- **FR35**: The game engine shall prevent pushers from moving into occupied tiles unless pushing a box is permitted.
+- **FR36**: The game engine shall allow a pusher to push exactly one box at a time.
+- **FR37**: The game engine shall prevent pushers from pulling boxes.
+- **FR38**: When a box, that was moved to a plate contains a powerup or powerdown, the game engine shall apply the corresponding effect to the pusher.
+- **FR39**: The game engine shall apply powerup and powerdown effects only as a result of validated actions.
+- **FR40**: The game engine shall update the authoritative game state only after successful validation and application of movement inputs.
+- **FR41**: The server shall distribute the updated authoritative game state to all participating clients
+- **FR42**: The game engine shall evaluate the authoritative game state after each update to determine whether the match completion condition is met.
+- **FR43**: The game engine shall consider the match completed when all boxes are positioned on plates.
+- **FR44**: Upon match completion, the game engine shall prevent further movement updates.
+- **FR45**: Upon match completion, the game engine shall calculate a final score.
+- **FR46**: The server shall send a match result notification, including the outcome and final score, to all participating clients.
+- **FR47**: Upon receiving a match result notification, the client shall display the match outcome and achieved score to the user.
 
 Power-Ups and Power-Downs
-'''''''''''''''''''''''''
+"""""""""""""""""""""""""
 
 .. rubric:: Introduction / Purpose
   :heading-level: 5
@@ -214,21 +214,21 @@ Powerups-and downs are contained in a random number of boxes and buff or nerf (i
 .. rubric:: Associated Functional Requirements
   :heading-level: 5
 
-**FR48**: At match initialization, the game engine shall designate a subset of boxes as gift boxes.
-**FR49**: For each gift box, the game engine shall assign exactly one effect, either a powerup or a powerdown.
-**FR50**: The game engine shall enforce a probability of 2/3 for assigning a powerup and 1/3 for assigning a powerdown.
-**FR51**: The content of a gift box shall remain hidden from players until the gift box is pushed onto a plate.
-**FR52**: When a gift box is pushed onto a plate, the game engine shall outpu its assigned effect, such that the server can send an according message to the affected clients.
-**FR53**: Upon revealing a gift box, the game engine shall apply the associated powerup or powerdown effect to the affected player’s pusher.
-**FR54**: Powerup and powerdown effects shall be applied only as a result of validated game actions.
-**FR55**: Each powerup and powerdown effect shall have a predefined duration.
-**FR56**: The game engine shall automatically remove the applied effect from the pusher after the duration expires.
-**FR57**: The expiration of powerup and powerdown effects shall be enforced exclusively by the game engine.
-**FR58**: Players shall not be able to enable, disable, or alter powerup or powerdown effects through client-side actions.
-**FR59**: The game engine shall ensure that powerup and powerdown effects are consistently reflected in the authoritative game state.
+- **FR48**: At match initialization, the game engine shall designate a subset of boxes as gift boxes.
+- **FR49**: For each gift box, the game engine shall assign exactly one effect, either a powerup or a powerdown.
+- **FR50**: The game engine shall enforce a probability of 2/3 for assigning a powerup and 1/3 for assigning a powerdown.
+- **FR51**: The content of a gift box shall remain hidden from players until the gift box is pushed onto a plate.
+- **FR52**: When a gift box is pushed onto a plate, the game engine shall outpu its assigned effect, such that the server can send an according message to the affected clients.
+- **FR53**: Upon revealing a gift box, the game engine shall apply the associated powerup or powerdown effect to the affected player's pusher.
+- **FR54**: Powerup and powerdown effects shall be applied only as a result of validated game actions.
+- **FR55**: Each powerup and powerdown effect shall have a predefined duration.
+- **FR56**: The game engine shall automatically remove the applied effect from the pusher after the duration expires.
+- **FR57**: The expiration of powerup and powerdown effects shall be enforced exclusively by the game engine.
+- **FR58**: Players shall not be able to enable, disable, or alter powerup or powerdown effects through client-side actions.
+- **FR59**: The game engine shall ensure that powerup and powerdown effects are consistently reflected in the authoritative game state.
 
 Game Mode Selection (General)
-'''''''''''''''''''''''''''''
+"""""""""""""""""""""""""""""
 
 .. rubric:: Introduction / Purpose
   :heading-level: 5
@@ -248,18 +248,18 @@ Allows the user to selecst a desired game mode and initializes the corresponding
 .. rubric:: Associated Functional Requirements
   :heading-level: 5
 
-**FR60** - The client shall present available game modes to the user for selection.
-**FR61** - The client shall allow the user to select exactly one game mode per selection request.
-**FR62** - The client shall transmit the selected game mode to the server in a game mode selection request.
-**FR63** - Each game mode selection request shall include the user's authenticated session context.
-**FR64** - The server shall validate that the requested game mode exists and is available.
-**FR65** - Upon successful validation, the server shall initialize the game mode flow corresponding to the selected game mode.
-**FR67** - The server shall assign the user to a game instance, match, or session associated with the selected game mode.
-**FR68** - The server shall notify the client when the selected game mode has been successfully initialized.
-**FR69** - Upon receiving server confirmation, the client shall transition the user into the initialized game mode flow.
+- **FR60**: The client shall present available game modes to the user for selection.
+- **FR61**: The client shall allow the user to select exactly one game mode per selection request.
+- **FR62**: The client shall transmit the selected game mode to the server in a game mode selection request.
+- **FR63**: Each game mode selection request shall include the user's authenticated session context.
+- **FR64**: The server shall validate that the requested game mode exists and is available.
+- **FR65**: Upon successful validation, the server shall initialize the game mode flow corresponding to the selected game mode.
+- **FR67**: The server shall assign the user to a game instance, match, or session associated with the selected game mode.
+- **FR68**: The server shall notify the client when the selected game mode has been successfully initialized.
+- **FR69**: Upon receiving server confirmation, the client shall transition the user into the initialized game mode flow.
 
 Single-Player Mode
-''''''''''''''''''
+""""""""""""""""""
 
 .. rubric:: Introduction / Purpose
   :heading-level: 5
@@ -284,22 +284,22 @@ The single-player mode allows a user to play the Sokoban on their own without an
 .. rubric:: Associated Functional Requirements
   :heading-level: 5
 
-- **FR71** - The system shall provide a single-player mode.
-- **FR72** - The system shall provide a tutorial mode within the single-player mode.
-- **FR73** - The system shall provide independent solve mode within the single-player mode.
-- **FR74** - The system shall allow AI-based hints in the single-player mode.
-- **FR75** - The client shall transmit selected single-player options to the server in an initialization request.
-- **FR76** - Each single-player initialization request shall include the user's authenticated session context.
-- **FR77** - The server shall validate that the user is authenticated and that the selected options are permitted for single-player mode.
-- **FR78** - Upon successful validation, the server shall invoke the game engine to initialize an authoritative game state according to the selected options.
-- **FR79** - The server shall transmit the initialized single-player game state to the client before gameplay begins.
-- **FR80** - The system shall allow users to enable or disable AI-based hints during single-player gameplay.
-- **FR81** - The client shall transmit hint enable and disable requests to the server.
-- **FR82** - The server shall forward hint requests to the game engine.
-- **FR83** - The game engine shall activate or deactivate the server-sided AI hint system according to received requests.
+- **FR71**: The system shall provide a single-player mode.
+- **FR72**: The system shall provide a tutorial mode within the single-player mode.
+- **FR73**: The system shall provide independent solve mode within the single-player mode.
+- **FR74**: The system shall allow AI-based hints in the single-player mode.
+- **FR75**: The client shall transmit selected single-player options to the server in an initialization request.
+- **FR76**: Each single-player initialization request shall include the user's authenticated session context.
+- **FR77**: The server shall validate that the user is authenticated and that the selected options are permitted for single-player mode.
+- **FR78**: Upon successful validation, the server shall invoke the game engine to initialize an authoritative game state according to the selected options.
+- **FR79**: The server shall transmit the initialized single-player game state to the client before gameplay begins.
+- **FR80**: The system shall allow users to enable or disable AI-based hints during single-player gameplay.
+- **FR81**: The client shall transmit hint enable and disable requests to the server.
+- **FR82**: The server shall forward hint requests to the game engine.
+- **FR83**: The game engine shall activate or deactivate the server-sided AI hint system according to received requests.
 
 Cooperative-Multiplayer Mode
-''''''''''''''''''''''''''''
+""""""""""""""""""""""""""""
 
 .. rubric:: Introduction / Purpose
   :heading-level: 5
@@ -327,21 +327,22 @@ Allows multiple players to collaboratively solve Sokoban puzzles with each playe
 .. rubric:: Associated Functional Requirements
   :heading-level: 5
 
-**FR84**: - The system shall allow authenticated users to create and join cooperative multiplayer lobbies.
-**FR85**: - The server shall manage lobby membership and player readiness status.
-**FR86**: - The server shall initialize a cooperative match only after all participating players have confirmed readiness.
-**FR87**: - The game engine shall create a single authoritative game board shared by all cooperative players.
-**FR88**: - The server shall process all cooperative player inputs strictly in the order in which they are received.
-**FR89**: - The server shall not use client-provided timestamps for determining input order.
-**FR90**: - The server shall forward each received input to the game engine for validation against the authoritative game state.
-**FR91**: - If an input is valid and non-conflicting, the game engine shall update the authoritative game state accordingly.
-**FR92**: - If an input conflicts with the current authoritative game state, the game engine shall reject the input.
-**FR93**: - Rejected inputs shall not modify the authoritative game state.
-**FR94**: - When an input is rejected due to a conflict, the server shall notify the originating client.
-**FR95**: - Upon receiving a rejection notification, the client shall provide immediate feedback indicating that the action was blocked.
+- **FR84**: The system shall allow authenticated users to create and join cooperative multiplayer lobbies.
+- **FR85**: The server shall manage lobby membership and player readiness status.
+- **FR86**: The server shall initialize a cooperative match only after all participating players have confirmed readiness.
+- **FR87**: The game engine shall create a single authoritative game board shared by all cooperative players.
+- **FR88**: The server shall process all cooperative player inputs strictly in the order in which they are received.
+- **FR89**: The server shall not use client-provided timestamps for determining input order.
+- **FR90**: The server shall forward each received input to the game engine for validation against the authoritative game state.
+- **FR91**: If an input is valid and non-conflicting, the game engine shall update the authoritative game state accordingly.
+- **FR92**: If an input conflicts with the current authoritative game state, the game engine shall reject the input.
+- **FR93**: Rejected inputs shall not modify the authoritative game state.
+- **FR94**: When an input is rejected due to a conflict, the server shall notify the originating client.
+- **FR95**: Upon receiving a rejection notification, the client shall provide immediate feedback indicating that the action was blocked.
 
 Competitive-Multiplayer Mode
-''''''''''''''''''''''''''''
+""""""""""""""""""""""""""""
+
 .. rubric:: Introduction / Purpose
   :heading-level: 5
 
@@ -368,22 +369,22 @@ Allows multiple players to compete by solving identical Sokoban levels in parall
 .. rubric:: Associated Functional Requirements
   :heading-level: 5
 
-**FR96** - The system shall provide a competitive-multiplayer mode.
-**FR97** - The system shall support ranked and casual play types within competitive-multiplayer mode.
-**FR98** - The server shall initialize an identical game board configuration for all players within a competitive match.
-**FR99** - The server shall maintain a separate authoritative game state instance for each competing player.
-**FR100** - The server shall validate and apply player input actions exclusively to the corresponding authoritative game state.
-**FR101** - The server shall measure completion time for each player using server-side timing.
-**FR102** - The server shall calculate player scores according to predefined scoring rules.
-**FR103** - The server shall record competitive match results.
-**FR104** - The server shall rank players based on completion time and score.
-**FR105** - The server shall transmit ranked results to all participating clients.
-**FR106** - Each client shall display the competitive match outcome to the user.
-**FR107** - The system shall maintain leaderboards for competitive-multiplayer mode.
-**FR108** - The system shall update leaderboards based on ranked match results.
+- **FR96**: The system shall provide a competitive-multiplayer mode.
+- **FR97**: The system shall support ranked and casual play types within competitive-multiplayer mode.
+- **FR98**: The server shall initialize an identical game board configuration for all players within a competitive match.
+- **FR99**: The server shall maintain a separate authoritative game state instance for each competing player.
+- **FR100**: The server shall validate and apply player input actions exclusively to the corresponding authoritative game state.
+- **FR101**: The server shall measure completion time for each player using server-side timing.
+- **FR102**: The server shall calculate player scores according to predefined scoring rules.
+- **FR103**: The server shall record competitive match results.
+- **FR104**: The server shall rank players based on completion time and score.
+- **FR105**: The server shall transmit ranked results to all participating clients.
+- **FR106**: Each client shall display the competitive match outcome to the user.
+- **FR107**: The system shall maintain leaderboards for competitive-multiplayer mode.
+- **FR108**: The system shall update leaderboards based on ranked match results.
 
 Matchmaking
-'''''''''''
+"""""""""""
 
 .. rubric:: Introduction / Purpose
   :heading-level: 5
@@ -407,62 +408,103 @@ Provides a mechanism for pairing players in competitive-multiplayer mode based o
 .. rubric:: Associated Functional Requirements
   :heading-level: 5
 
-**FR109** - The system shall provide server-controlled matchmaking for competitive multiplayer mode.
-**FR110** - The server shall perform matchmaking primarily based on player rank or skill rating.
-**FR111** - The server shall initially search for matches within a predefined rank range centered on the player's rank.
-**FR112** - The server shall measure the elapsed time each player remains in the matchmaking queue.
-**FR113** - If no suitable match is found within a predefined time threshold, the server shall progressively widen the acceptable rank range.
-**FR114** - Rank range expansion shall continue until a match is found or a defined maximum rank range is reached.
-**FR115** - The server shall transmit current matchmaking search range information to the client during queueing.
-**FR116** - The client shall display matchmaking status information indicating the active rank range and its expansion over time.
-
-Multiplayer Lobby Management (Shared Feature)
-'''''''''''''''''''''''''''''''''''''''''''''
-
-.. rubric:: Introduction / Purpose
-  :heading-level: 5
-
-.. rubric:: Stimulus / Response Sequence
-  :heading-level: 5
-
-.. rubric:: Associated Functional Requirements
-  :heading-level: 5
+- **FR109** - The system shall provide server-controlled matchmaking for competitive multiplayer mode.
+- **FR110** - The server shall perform matchmaking primarily based on player rank or skill rating.
+- **FR111** - The server shall initially search for matches within a predefined rank range centered on the player's rank.
+- **FR112** - The server shall measure the elapsed time each player remains in the matchmaking queue.
+- **FR113** - If no suitable match is found within a predefined time threshold, the server shall progressively widen the acceptable rank range.
+- **FR114** - Rank range expansion shall continue until a match is found or a defined maximum rank range is reached.
+- **FR115** - The server shall transmit current matchmaking search range information to the client during queueing.
+- **FR116** - The client shall display matchmaking status information indicating the active rank range and its expansion over time.
 
 AI Assistance
-'''''''''''''
+"""""""""""""
 
 .. rubric:: Introduction / Purpose
   :heading-level: 5
 
+Provides optional AI-generated hints to assist players without solving the game automatically. This is disabled in the competitive-multiplayer mode.
+
 .. rubric:: Stimulus / Response Sequence
   :heading-level: 5
 
+- An authenticated user requests an AI hint via the client.
+- The client transmits the hint request to the server, including the current user session context.
+- The server forwards the request to the game engine.
+- The game engine invokes the AI Assistance module with the current authoritative game state.
+- The AI module calculates the next optimal move and returns it to the game engine.
+- The game engine forwards the hint to the server.
+- The server transmits the hint to the client.
+- The client displays the direction hint for the player's next move.
+- Once the player executes the hinted move, the client removes the hint from the display.
+
 .. rubric:: Associated Functional Requirements
   :heading-level: 5
+
+- **FR117** - The system shall provide AI-based hints for eligible game modes.
+- **FR118** - AI hints shall be request-based; the system shall not provide hints without request.
+- **FR119** - AI hints shall indicate only the next optimal move based on the current authoritative game state.
+- **FR120** - AI hints shall be removed from the client display immediately after the player executes the indicated move.
+- **FR121** - AI hints shall be disabled in the competitive-multiplayer mode.
+- **FR122** - The game engine shall invoke the AI Assistance module to compute hints; the AI module shall not directly modify the authoritative game state.
+- **FR123** - The AI Assistance module shall return hints to the game engine, which shall forward them to the client.
 
 Map Editor (Level Designer)
-'''''''''''''''''''''''''''
+"""""""""""""""""""""""""""
 
 .. rubric:: Introduction / Purpose
   :heading-level: 5
 
+Allows users to create, validate, and share custom Sokoban levels.
+
 .. rubric:: Stimulus / Response Sequence
   :heading-level: 5
 
+- An authenticated user enters the Level Designer via the client.
+- The user creates a new board or modifies an existing one.
+- The client sends the proposed board to the server for validation.
+- The game engine verifies the solvability of the board according to Sokoban rules within a configurable timeout.
+- If the board is solvable, the server stores it and optionally makes it available for sharing.
+- If the board is not solvable or verification times out, the server rejects the save and returns an error message to the client.
+
 .. rubric:: Associated Functional Requirements
   :heading-level: 5
+
+- **FR124** - The system shall provide a map editor mode that is accessible from the client.
+- **FR125** - Users shall be able to create new Sokoban boards.
+- **FR126** - Users shall be able to modify their own boards.
+- **FR127** - Users shall be able to delete their own boards.
+- **FR128** - The server-sided game engine shall verify that each submitted board is solvable according to Sokoban rules within a configurable timeout (default: 10 seconds) before saving
+- **FR129** - If solvability verification exceeds the configured timeout or fails, the server shall reject the save request and return an error status to the client.
+- **FR130** - Solvable boards approved by the server shall be stored on the server for later use.
+- **FR131** - Approved boards shall be available for sharing with other users according to system access rules.
 
 Community & Social Interaction
-''''''''''''''''''''''''''''''
+""""""""""""""""""""""""""""""
 
 .. rubric:: Introduction / Purpose
   :heading-level: 5
 
+Enables player interaction through spectating, inviting, reporting, and moderation.
+
 .. rubric:: Stimulus / Response Sequence
   :heading-level: 5
 
+- An authenticated user selects another player in the client interface.
+- The client displays a context menu for social interactions.
+- The user selects an action (e.g., invite, spectate, report).
+- The client sends the corresponding request to the server.
+- The server validates the request (e.g., target player is online, action is allowed).
+- The server executes the requested action or returns an error if the request is invalid.
+- For moderation actions, the server logs and applies appropriate measures according to system policies.
+
 .. rubric:: Associated Functional Requirements
   :heading-level: 5
+
+- **FR132** - The system shall allow authenticated users to spectate ongoing multiplayer sessions.
+- **FR133** - The system shall allow authenticated users to invite other players to multiplayer sessions.
+- **FR134** - The system shall allow authenticated users to report other players for inappropriate behavior.
+- **FR135** - The system shall support moderation actions by authorized personnel and log all moderation events.
 
 Performance Requirements
 ^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -479,7 +521,9 @@ Performance Requirements
 
 **NFR-P6** - the system shall support at least 200 **simultaneous multiplayer sessions per server instance**.
 
-**NFR-P7** - matchmaking and lobby creation shall complete within **2 seconds** under normal and peak load conditions.
+**NFR-P7** - lobby creation shall complete within **2 seconds** under normal and peak load conditions.
+
+**NFR-P8**: - matchmaking shall respond within **2 seconds** with status updates under normal and peak load conditions.
 
 **NFR-P8** - the system shall handle game state synchronization for multiplayer sessions with up to **4 players** without exceeding defined latency thresholds.
 
@@ -531,7 +575,7 @@ Game Session Data
 
 **LDR-S1** - Active game sessions shall have **unique session identifiers** and store **participating user IDs**, **game mode**, **session start and end times**.
 
-**LDR-S2** - Game session data shall be **retained temporarily** and **discarded after session completion**, except for results required for statistics and achievements (FR83).
+**LDR-S2** - Game session data shall be **retained temporarily** and **discarded after session completion**, except for results required for statistics and achievements.
 
 **LDR-S3** - Session-related moves and game state may be **stored in memory or temporary tables** for performance efficiency (NFR-P1-P4, NFR-R3).
 
@@ -542,7 +586,7 @@ Custom Map Data
 
 **LDR-M1** - Each map shall have a **unique map identifier**, **creator ID**, **validation status**, **timestamp of creation**, and **last modification timestamp**.
 
-**LDR-M2** - Only maps **validated as solvable** shall have their status set to “approved” and be available to other players (FR84-FR86).
+**LDR-M2** - Only maps **validated as solvable** shall have their status set to “approved” and be available to other players (FR128–FR131).
 
 **LDR-M3** - Map data shall include **map layout (tiles, walls, boxes, plates)** in a **normalized schema** to optimize queries for multiplayer sessions.
 
@@ -557,7 +601,7 @@ Moderation and Report Data
 
 **LDR-MOD3** - Historical moderation data shall be read-only for regular users and auditable for compliance (NFR-S5).
 
-**LDR-MOD4** - Reports shall support status tracking visible to the reporting player (FR88).
+**LDR-MOD4** - Reports shall support status tracking visible to the reporting player (FR134).
 
 Design Constraints
 ^^^^^^^^^^^^^^^^^^
@@ -610,7 +654,7 @@ Security
 
 **NFR-S5** - All moderation actions, reports, and administrative changes shall be **logged and auditable for at least 12 months**.
 
-**NFR-S6** - AI hints shall only return information about the **current player’s own puzzle state** and shall **never reveal positions, moves, or scores of other players**.
+**NFR-S6** - AI hints shall only return information about the **current player's own puzzle state** and shall **never reveal positions, moves, or scores of other players**.
 
 **NFR-S7** - User sessions shall automatically **expire after a configurable period of inactivity** (default: 15 minutes), requiring re-authentication.
 
@@ -690,7 +734,7 @@ Usablity
 
 **NFR-U2** - Key rebinding and settings changes shall be understandable without external documentation.
 
-**NFR-U3** - Confirmation dialogs shall clearly indicate the consequences of the user’s action.
+**NFR-U3** - Confirmation dialogs shall clearly indicate the consequences of the user's action.
 
 **NFR-U4** - AI hints shall be displayed in a non-intrusive manner and shall not block gameplay
 
