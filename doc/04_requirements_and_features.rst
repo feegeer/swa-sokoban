@@ -6,8 +6,9 @@ In this chapter, main features and the functional and nonfunctional requirements
 Abbreviations
 -------------
 
-- **FR** - Functional requirement
-- **NFR** - Non-Functional requirement
+- **FR** - Functional Requirement
+- **NFR** - Non-Functional Requirement
+- **LDR** - Logical Database Requirement
 - **Client** - A software application connecting to the server
 - **Server** - Central process that manages registration, sessions, game state, matchmaking, persistence, and communication.
 - **AI** - Artificial Intelligence
