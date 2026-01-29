@@ -1,105 +1,165 @@
+=========================
 Goals
-=====
+=========================
 
-The main goal is to have a distributed Sokoban game. Furthermore, we have
+The overall objective of the system is to provide a **distributed, multiplayer-capable Sokoban platform**
+that delivers engaging gameplay, supports community interaction, and ensures fairness, performance,
+and long-term sustainability.
 
-.. rubric:: G1: Have a server
-  :heading-level: 4
+------------------------------------------------------------
+System Goals — Sokoban System
+------------------------------------------------------------
 
-- **G1.1**: The server sorts out the client connection and communication
+* **SG1**: Enable execution of Sokoban gameplay while enforcing rules server-side
 
-  - **G1.1.1**: The server takes care of the client pairing multiplayer games
-  - **G1.1.2**: The server handles client registration. Desktop should be the first supported platform, others like Steam, mobile or web might follow later.
-
-- **G1.2**: the server sorts out the session management
-
-  - **G1.2.1**: the game board will be generated and initialized
-  - **G1.2.2**: random gift boxes will be placed on the map
-  - **G1.2.3**: during session management, the server will calculate the players' scores
-
-
-.. rubric:: G2: Gameplay
-  :heading-level: 4
-
-- **G2.1**: The Sokoban (the character on the field)
-
-  - **G2.1.1**: The Sokoban can move up, down, left and right
-  - **G2.1.2**: The Sokoban can push a box, if no other box or wall is on the tile behind the box
-  - **G2.1.3**: The Sokoban can have a buff or nerf effect, if a Powerup/-down is active
-
-- **G2.2**: There is a grid-like map
-- **G2.3**: There are boxes, that can be moved to fields without a wall
-- **G2.4**: There are plates to which the player can move the boxes
-- **G2.5**: There are gift boxes containing powerups and -downs
-- **G2.6**: There are walls enclosing the map and (potentially) on the map
+  - **SG1.1** Execute Sokoban gameplay
+  - **SG1.2** Apply core movement and box mechanics
+  - **SG1.3** Maintain authoritative game state
+  - **SG1.4** Apply power-ups and power-downs
+  - **SG1.5** Synchronize multiplayer state
 
 
-.. rubric:: G3: Game Modes
-  :heading-level: 4
+* **SG2**: Support multiple gameplay modes
 
-- **G3.1**: There is a single player mode
-  - **G3.1.2**: An AI, that can help the player, is integrated into the single player mode
-
-- **G3.2**: There is a friends-only multiplayer mode and an open multiplayer mode (friends and random players can join)
-
-  - **G3.2.1**: Players can start new sessions
-  - **G3.2.2**: Players can join existing sessions
-  - **G3.2.3**: the multiplayer mode is a time-trial game, that is either ranked or casual
-  - **G3.2.4**: Two to six players can be part of a multiplayer game
-
-- **G3.3**: There is a map editor mode
-
-  - **G3.3.1**: Players can create their own maps
-  - **G3.3.2**: The system automatically checks the validity of the player-made maps
-  - **G3.3.3**: The player-made maps can be saved
-
-- **G3.4**: There is a Spectator mode
+  - **SG2.1** Provide single-player mode
+  - **SG2.2** Provide cooperative multiplayer mode
+  - **SG2.3** Provide competitive multiplayer mode
+  - **SG2.4** Provide tutorial mode
+  - **SG2.5** Provide spectator mode
 
 
-.. rubric:: G4: User Experience
-  :heading-level: 4
+* **SG3**: Provide AI-assisted gameplay guidance
 
-- **G4.1**: The system has a user-friendly interface that is easy to navigate
-- **G4.2**: The system provides clear and concise feedback to the user about their progress and any errors that occur
-- **G4.3**: The system allows users to customize their experience, such as choosing their own avatar or creating their own maps
-
-
-.. rubric:: G5: AI Integration
-  :heading-level: 4
-
-- **G5.1**: AI assistance is triggered in Co-op and Singleplayer mode by hitting a help button.
-- **G5.2**: When triggered, AI draws an arrow to indicate direction in which the next box should be moved. When box is moved in that direction the arrow disappears and AI assistance is turned off till the next help button hit comes.
-- **G5.3**: In Co-op the host has the toggle AI assistance on/off button.
-- **G5.4**: The AI is able to provide helpful hints and suggestions to the user
+  - **SG3.1** Provide contextual hints
+  - **SG3.2** Generate next optimal move suggestions
+  - **SG3.3** Evaluate session-level state for hints
+  - **SG3.4** Evaluate level difficulty
 
 
-.. rubric:: G6: Power-ups and Power-downs
-  :heading-level: 4
+* **SG4**: Support community-driven content creation
 
-- **G6.1**: The system has a variety of power-ups and power-downs that can be used by the player
-- **G6.2**: The system has functionality for distributing power-ups and power-downs randomly throughout the game
-- **G6.3**: The system has functionality for tracking the player's use of power-ups and power-downs
-
-
-.. rubric:: G7: Map Editor
-  :heading-level: 4
-
-- **G7.1**: The system has a user-friendly interface for creating and editing maps
-- **G7.2**: The system has functionality for validating the player-made maps
-- **G7.3**: The system has functionality for saving and loading player-made maps
+  - **SG4.1** Provide level editor
+  - **SG4.2** Support level design and testing
+  - **SG4.3** Validate level solvability
+  - **SG4.4** Allow saving and sharing of custom levels
+  - **SG4.5** Support creativity in level creation
 
 
-.. rubric:: G8: Performance
-  :heading-level: 4
+* **SG5**: Support user identity and account management
 
-- **G8.1**: The system is able to handle a large number of users simultaneously
-- **G8.2**: The system is able to handle a large amount of data and game state
-- **G8.3**: The system is able to respond quickly to user input
+  - **SG5.1** Manage user accounts
+  - **SG5.2** Manage profiles and friend lists
+  - **SG5.3** Provide settings configuration
+  - **SG5.4** Store account and statistics data
 
 
-.. rubric:: G9: Security
-  :heading-level: 4
+* **SG6**: Ensure fair and secure gameplay
 
-- **G9.1**: The system has functionality for authenticating and authorizing users
-- **G9.2**: The system has functionality for protecting user data and game state
-- **G9.3**: The system has functionality for preventing cheating and hacking
+  - **SG6.1** Use server authority for game logic
+  - **SG6.2** Validate player actions
+  - **SG6.3** Use anti-cheat mechanisms
+  - **SG6.4** Provide cheating report mechanisms
+  - **SG6.5** Enforce fairness in matchmaking
+
+
+* **SG7**: Provide scalable infrastructure for multiplayer sessions
+
+  - **SG7.1** Support session organization and coordination
+  - **SG7.2** Support ranking-based matchmaking
+  - **SG7.3** Initialize and manage game sessions
+  - **SG7.4** Maintain consistent session state
+  - **SG7.5** Handle concurrent player interactions
+
+
+* **SG8**: Ensure high usability and accessibility
+
+  - **SG8.1** Provide ease of navigation
+  - **SG8.2** Provide accessibility settings
+  - **SG8.3** Support personalization options
+  - **SG8.4** Provide intuitive game mechanics
+
+
+* **SG9**: Deliver high performance and responsiveness
+
+  - **SG9.1** Ensure low latency interaction
+  - **SG9.2** Ensure responsive system behavior
+  - **SG9.3** Provide efficient synchronization
+  - **SG9.4** Support large numbers of concurrent users
+
+
+* **SG10**: Ensure reliable operation under failures
+
+  - **SG10.1** Provide reliable session handling
+  - **SG10.2** Support recovery from disconnects
+  - **SG10.3** Maintain consistent state management
+
+
+* **SG11**: Support long-term product success and player retention
+
+  - **SG11.1** Keep players engaged
+  - **SG11.2** Encourage positive community
+  - **SG11.3** Prevent player churn
+  - **SG11.4** Support monetization potential
+  - **SG11.5** Help the game spread
+
+
+------------------------------------------------------------
+Stakeholder Goals
+------------------------------------------------------------
+
+User Goals (Generic System User)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* **UG1**: Access the system securely and reliably
+* **UG2**: Navigate the system intuitively
+* **UG3**: Manage personal account information and preferences
+* **UG4**: Configure gameplay, audiovisual, and accessibility settings
+* **UG5**: Experience a usable, accessible, and personalized interface
+
+
+Player Goals (is-a User)
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+* **PG1**: Play Sokoban in different gameplay modes
+* **PG2**: Learn the game through tutorials, observation, and assistance
+* **PG3**: Experience smooth, responsive, and balanced gameplay
+* **PG4**: Be appropriately challenged without frustration
+* **PG5**: Play fairly in competitive environments
+* **PG6**: Engage socially through cooperation, competition, and spectating
+* **PG7**: Have fun and remain engaged over repeated sessions
+
+
+Level Designer Goals (is-a User)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* **LDG1**: Create custom Sokoban levels
+* **LDG2**: Edit and refine created levels
+* **LDG3**: Ensure levels are solvable and balanced
+* **LDG4**: Test levels before publication
+* **LDG5**: Share levels with other players
+* **LDG6**: Express creativity with minimal technical barriers
+
+
+Customer Goals — Hawki
+~~~~~~~~~~~~~~~~~~~~~~
+
+* **CG1**: Deliver a successful Sokoban system
+* **CG2**: Retain players and encourage repeated engagement
+* **CG3**: Prevent early player drop-off
+* **CG4**: Foster a positive and fair community
+* **CG5**: Enable sustainable monetization
+* **CG6**: Support organic growth through community and sharing
+
+
+------------------------------------------------------------
+Goal Model
+------------------------------------------------------------
+
+The following diagram provides an overview of the complete goal structure and
+illustrates refinement relationships between system and stakeholder goals.
+
+.. figure:: _static/goal_model.svg
+   :width: 100%
+   :align: center
+
+   Global Goal Model of the Distributed Sokoban System
