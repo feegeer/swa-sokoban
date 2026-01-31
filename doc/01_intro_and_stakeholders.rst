@@ -8,8 +8,8 @@ Our customer Hawki employed us to create a distributed Sokoban game, that can be
 .. rubric:: Main features of the distributed Sokoban game
   :heading-level: 3
 
-- **Client-Server architecture**: clients can connect to the game server, that manages all connected clients and synchronizes game states across them. The server also validates the player actions.
-- **Sokoban Game Engine**: is server-sided and implements the core game logic and thus features like player movements, game board related operations and updates of the authoritative game state.
+- **Client-Server architecture**: clients can connect to the game server, that manages all connected clients.
+- **Sokoban Game Engine**: is server-side and implements the core game logic and thus features like player movements, game board related operations and updates of the authoritative game state.
 - **Different game modes**: our Sokoban features a single player mode and two different multiplayer modes (cooperative and competitive)
 - **Power-ups and -downs**: the Sokoban game boards feature different power-ups and downs like increased/decreased movement speed or the ability to pass through walls, to make the game entertaining and versatile
 - **AI Assistance**: players can toggle AI assistance during game sessions, if they are stuck on the current puzzle
