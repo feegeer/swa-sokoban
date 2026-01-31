@@ -1,12 +1,12 @@
 Building Block View
 ===================
 
-In this chapter, the building block view of the Sokoban system is shown. First, the high-level architecture is shown. Then, the sub-components are covered with special focus on the `GameServer`.
+In this chapter, the building block view of the Sokoban system is shown. First, the high-level architecture is shown. Then, the sub-components are covered with special focus on the `GameServer` and `GameClient`.
 
 High-level architecture
 -----------------------
 
-The high-level architecture of the Sokoban system contains 5 main components: the game server, an external AI hint service, the database, game clients, and level designer clients.
+The high-level architecture of the Sokoban system contains 4 main components: the game server, an external AI hint service, the database, and the game client.
 
 .. figure:: _static/component_diagram.svg
    :width: 100%
@@ -15,7 +15,7 @@ The high-level architecture of the Sokoban system contains 5 main components: th
 `GameServer`
 ^^^^^^^^^^^^
 
-The `GameServer` component represents the backend. It handles the interaction with the player clients (`GameClient`) and level designer clients (`LevelDesigner`), as well as the communication with the AI hint service (`AIHintService`) and the `Database`. The architecture allows for multiple game servers to enable load balancing, downtime minimizing and quick response times in multiple regions.
+The `GameServer` component represents the backend. It handles the interaction with the player clients (`GameClient`), as well as the communication with the AI hint service (`AIHintService`) and the `Database`. The architecture allows for multiple game servers to enable load balancing, downtime minimizing and quick response times in multiple regions.
 
 .. figure:: _static/component_diagram_game_server.svg
    :width: 100%
@@ -26,7 +26,7 @@ The `GameServer` component represents the backend. It handles the interaction wi
 `ClientInteraction`
 """""""""""""""""""
 
-This component handles client requests through the `IGameServerAPI`. These include authorization requests, which are handled by the `AuthService`, as well as login with authorization, lobby and mode selection and gameplay inputs, handled by the `GameSessionManager` through the `IGameSession`.
+This component handles client requests through the `IGameServerAPI`. These include authorization requests, which are handled by the `AuthService`, as well as login with authorization, lobby and mode selection and gameplay inputs, handled by the `GameSessionManager` through the `IGameSession`. Additionally, requests coming from the `LevelDesigner` (see `GameClient`), get processed and passed to the `MapManagement` component through the `ILevelAPI`.
 User settings are being stored by the `Persistence` module, which is accessed through the `IAccountSettingsStore` interface.
 The `ClientInteraction` component can also request hints from the `HintOrchestrator` through the `IHintService` interface and pass those back to the player.
 
@@ -60,12 +60,48 @@ This component executes rule-level validation of requested moves against the aut
 `MapManagement`
 """""""""""""""
 
-The `MapManagement` component is responsible for interacting with the level designer clients (`LevelDesigner`) through the `ILevelAPI`. This includes requests for uploading, downloading and listing maps. The component runs a server-side solvability validation with timeout and ensures that invalid maps are not saved. Valid maps get stored by the `Persistence` component, accessed through the `IMapStore` interface.
+The `MapManagement` component is responsible for handling requests related to level design through the `ILevelAPI`. This includes requests for uploading, downloading and listing maps. The component runs a server-side solvability validation with timeout and ensures that invalid maps are not saved. Valid maps get stored by the `Persistence` component, accessed through the `IMapStore` interface.
 
 `Persistence`
 """""""""""""
 
 This component is the only one accessing the external database through the `IDatabaseAPI`. It stores user data, game session data, hint policies, maps, and statistics. To provide access to the database for the other components, it exposes `IMapStore`, `IAccountSettingsStore`, `IGameSessionStore`, and `IHintPolicyStore` interfaces.
+
+`GameClient`
+^^^^^^^^^^^^
+
+The `GameClient` represents the frontend for the players of the game. It communicates with the game server through the `IGameServerAPI`.
+
+.. figure:: _static/component_diagram_game_client.svg
+   :width: 100%
+   :align: center
+
+`GameClient` has the following sub-components:
+
+`ServerInteraction`
+"""""""""""""""""""
+
+The `ServerInteraction` component is responsible for the interaction with the `GameServer` and therefore implements the `IGameServerAPI`. It provides the interfaces `ILevelService`, `IGameplayService`, and `ISettingsService` for the other internal components of `GameClient`.
+
+`LevelDesigner`
+"""""""""""""""
+
+This component enables users to create, edit and publish their own maps. It interacts with the game server through the `ServerInteraction` component using the `ILevelService` interface to validate, publish and receive maps.
+
+`GameplayClient`
+""""""""""""""""
+
+The `GameplayClient` is the core component of the `GameClient` that handles the game logic, the user's moves and inputs, as well as maintaining the local game state. It uses the `IGameplayService` interface provided by the `ServerInteraction` component to communicate with the game server.
+
+`SettingsManager`
+"""""""""""""""""
+
+This component is responsible for user settings, i.e., storing them on the game server through the `ServerInteraction` component using the `ISettingsService` interface and applying them on the `GameClient`. These settings could, for example, affect the UI (see below).
+
+`UI`
+""""
+
+This component represents the user interface of the application running on the user's device. It receives current information from the `LevelDesigner` or `GameplayClient` through `ILevelDesigner` or `IGameplayClient`, and adheres to user settings it receives from the `SettingsManager` through the `ISettingsManager` interface.
 
 `AIHintService`
 ^^^^^^^^^^^^^^^
@@ -76,13 +112,3 @@ Database
 ^^^^^^^^
 
 The database is an external service so that multiple GameServers can access the same database to allow for global statistics and consistent data.
-
-`GameClient`
-^^^^^^^^^^^^
-
-The `GameClient` represents the frontend for the players of the game. It communicates with the game server through the `IGameServerAPI` and is itself stateless to make for an authoritative game logic.
-
-`LevelDesigner`
-^^^^^^^^^^^^^^^
-
-This component represents the frontend for the level designers to enable users to create and publish their own maps. It communicates to the game server through the `ILevelAPI`. The `LevelDesigner` could be implemented along with the `GameClient` as a single front-end application, although not necessarily, because a user can create, edit, and publish maps without playing the game himself. The same applies to the `GameClient`.
