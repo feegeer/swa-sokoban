@@ -79,12 +79,12 @@ List of Concerns
 - Always online, stable system
 - Good user experience and customization
 - Project stays within a predefined budget
-- agreed upon project timeline
+- Agreed upon project timeline
 - ROI expectations
 
 **Players/End-Users**
 
-- Playing a sokoban game
+- Playing a Sokoban game
 - Fun gameplay, intuitive controls
 - Stable servers and low latency
 - Fair matchmaking in ranked mode
@@ -96,7 +96,7 @@ List of Concerns
 
 **Developers**
 
-- Clear and feasable requirements
+- Clear and feasible requirements
 - Clear priorities
 - Stable technologies (game engines/graphics libraries)
 - Maintainable codebase
@@ -135,7 +135,6 @@ List of Concerns
 - Deployments, updates, backups
 - Cloud resource management
 - Cost-efficient infrastructure usage
-- Cost control mechanisms
 
 **Cloud / Server Provider**
 
@@ -167,7 +166,7 @@ List of Concerns
 
 - Licensing for assets
 - IP rights handling
-- Follow local law regarding a.g. censorship
+- Follow local law regarding e.g. censorship
 - Data protection laws (GDPR, etc.)
 - TOS and PP
 
