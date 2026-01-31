@@ -40,7 +40,7 @@ Overview
 +-----------------------------------+---------------------------------------------+-------------------------------+-------------------------------------+
 | Cloud / Server Provider           | Required for an always-online game          | High                          | Medium                              |
 +-----------------------------------+---------------------------------------------+-------------------------------+-------------------------------------+
-| Game Designers                    | Gameplay quality, level design              | Medium–High                   | Low–Medium                          |
+| Level Designers                   | Gameplay quality, level design              | Medium–High                   | Low–Medium                          |
 +-----------------------------------+---------------------------------------------+-------------------------------+-------------------------------------+
 | QA / Testers                      | Ensure quality, avoid regressions           | Medium                        | Medium                              |
 +-----------------------------------+---------------------------------------------+-------------------------------+-------------------------------------+
@@ -62,7 +62,7 @@ Overview
 Importance vs. Influence diagram
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-.. figure:: images/impInfDiagram.svg
+.. figure:: images/impInfDiagram.jpeg
    :width: 100%
    :align: center
 
@@ -110,7 +110,7 @@ List of Concerns
 - Multiplayer synchronization
 - Secure and fair gameplay
 
-**Game Designers**
+**Level Designers**
 
 - Flexible map editor
 - Validity checks for solvable maps
@@ -181,3 +181,60 @@ List of Concerns
 - Timeline management
 - Stakeholder alignment
 - Risk management planning
+
+
+Conflicts
+^^^^^^^^^
+
+**Customer vs. Developers**
+
+- Customer wants many features (spectator mode, map editor integration, assistive AI, multiplayer sync), which may conflict with development time and complexity
+- Developing features costs time
+
+→ Group features by importance and release feature updates
+
+**Customer vs. Players**
+
+- Customer wants ROI and thus aggressive monetization
+- Players want a nice UX and no pay to win
+
+→ Transparency and fair monetization
+
+**Customer vs. Software Architects**
+
+- Customer wants cross-platform clients (desktop/mobile/web/(steam))
+
+→ Architects must ensure portability, which increases design complexity
+
+**Players vs. IT Security**
+
+- Players want full control over map creation & sharing
+
+→ Security must restrict harmful content, cheating, or injection
+
+**Level Designers vs. QA Testers**
+
+- Designers want many power-ups, power-downs, and randomness
+
+→ QA has to maintain predictable, testable behavior
+
+**Community & Moderation vs. Players**
+
+- Players want unrestricted map sharing and have chatrooms
+
+→ Moderation must remove inappropriate maps and content
+
+**Support & Helpdesk vs. Developers**
+
+- Support wants easy debugging information
+- Developers could expose too much internal info, give too much privileges
+
+→ Also test support tools for functionality and restrict privileges for critical operations
+
+**Customer vs. Law & Compliance**
+
+- Customer wants community features like a chatroom and other interactions
+- Law & Compliance needs to follow local laws regarding censorship and ager verification
+
+→ use 3rd. party age verification and identification and localize game content
+
