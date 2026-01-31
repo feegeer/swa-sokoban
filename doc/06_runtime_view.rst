@@ -1,10 +1,5 @@
 Runtime View
 ============
-+++
-NOTES:
-Activity diagrams (supporting): game session, level creation (if they add clarity beyond sequences)
-+++
-
 Sequence Diagrams
 -----------------
 Start Game Session
@@ -154,7 +149,7 @@ Player selects Design level and later clicks Save level in the editor.
 
 - Invalid/unsolvable level: server returns levelValid=false with reasons. The client shows "level invalid" and displays the reasons, no level is stored.
 
-Settings Management
+Change Settings
 ^^^^^^^^^^^^^^^^^^^
 
 The following diagram shows the sequence of updating game preferences. The player opens the settings menu, reviews their current configuration, modifies the desired preferences, and saves the changes. The GameClient communicates with the GameServer, which updates the player settings in the database.
@@ -182,14 +177,14 @@ The player opens the settings menu.
 .. rubric:: Postconditions (Success)
   :heading-level: 4
 
-- The player’s new preferences are stored in the database.
-- The client shows a “settings saved” message to the player.
+- The player's new preferences are stored in the database.
+- The client shows a "settings saved" message to the player.
 
 .. rubric:: Alternatives / Errors
   :heading-level: 4
 
-- Player cancels saving changes: The preferences are not stored and the settings remain unchanged.
-- Error while storing settings in the database: The database returns an error, the server returns saved=false with an error reason. The client displays a “try again” message to the player and the settings remain unchanged.
+- Player cancels saving changes: The preferences are not stored, and the settings remain unchanged.
+- Error while storing settings in the database: The database returns an error, the server returns saved=false with an error reason. The client displays a "try again" message to the player and the settings remain unchanged.
 
 Activity Diagrams
 -----------------
