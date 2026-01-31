@@ -21,60 +21,164 @@ Our customer Hawki employed us to create a distributed Sokoban game, that can be
 Stakeholders
 ------------
 
-+-----------------------------+---------------------------------------------+-------------+--------------------------+
-| Role / Name                 | Concerns / Expectations                     | Importance  | Influence on the project |
-+=============================+=============================================+=============+==========================+
-| Customer (HAWKI)            | compliance to Sokoban rules                 | high        | high                     |
-|                             | (non-) functional requirements are met      |             |                          |
-|                             | extensibility of the system                 |             |                          |
-+-----------------------------+---------------------------------------------+-------------+--------------------------+
-| Developer                   | knowing the features to develop             | rather high | rather low               |
-|                             | project scope                               |             |                          |
-|                             | feature priorities                          |             |                          |
-|                             | tech stack                                  |             |                          |
-+-----------------------------+---------------------------------------------+-------------+--------------------------+
-| Sokoban Player              | play Sokoban online (also with others)      | mid         | low                      |
-|                             | overall game experience                     |             |                          |
-|                             | be challenged (AI or real opponent)         |             |                          |
-|                             | create maps                                 |             |                          |
-|                             | be entertained                              |             |                          |
-+-----------------------------+---------------------------------------------+-------------+--------------------------+
-| Project Manager             | timeline adherence                          | high        | high                     |
-|                             | project budget is not exceeded              |             |                          |
-|                             | resource allocation                         |             |                          |
-|                             | risk management                             |             |                          |
-+-----------------------------+---------------------------------------------+-------------+--------------------------+
-| Software Architect          | system architecture                         | high        | high                     |
-|                             | be involved in decisions                    |             |                          |
-|                             | scalability                                 |             |                          |
-|                             | maintainability                             |             |                          |
-+-----------------------------+---------------------------------------------+-------------+--------------------------+
-| Game Designers              | game mechanics                              | mid         | mid                      |
-|                             | level design                                |             |                          |
-|                             | player engagement                           |             |                          |
-+-----------------------------+---------------------------------------------+-------------+--------------------------+
-| Cloud / Server Provider     | hosting infrastructure                      | mid         | mid                      |
-|                             | scalability                                 |             |                          |
-|                             | overload and downtime prevention            |             |                          |
-|                             | security                                    |             |                          |
-+-----------------------------+---------------------------------------------+-------------+--------------------------+
-| System Admin / DevOps       | deployment pipelines                        | high        | mid                      |
-|                             | system uptime                               |             |                          |
-|                             | performance efficiency                      |             |                          |
-|                             | security                                    |             |                          |
-+-----------------------------+---------------------------------------------+-------------+--------------------------+
-| QA & Testers                | functional correctness                      | mid         | mid                      |
-|                             | regression prevention                       |             |                          |
-|                             | test coverage                               |             |                          |
-+-----------------------------+---------------------------------------------+-------------+--------------------------+
-| Community / Moderation Team | community guidelines enforcement            | low         | low                      |
-|                             | user behavior moderation                    |             |                          |
-+-----------------------------+---------------------------------------------+-------------+--------------------------+
-| Law & Compliance            | legal rule compliance                       | mid         | mid                      |
-|                             | licensing                                   |             |                          |
-+-----------------------------+---------------------------------------------+-------------+--------------------------+
-| IT Security                 | threat modeling                             | high        | mid                      |
-|                             | vulnerability management                    |             |                          |
-+-----------------------------+---------------------------------------------+-------------+--------------------------+
-| Other externals             | supplying project components                | low         | low                      |
-+-----------------------------+---------------------------------------------+-------------+--------------------------+
+Overview
+^^^^^^^^
++-----------------------------------+---------------------------------------------+-------------------------------+-------------------------------------+
+| Stakeholder                       | Concerns / Expectations                     | Importance for System Success | Influence on Requirements / Project |
++===================================+=============================================+===============================+=====================================+
+| Customer (HAWKI)                  | Defines vision and goals,                   | Very high                     | Very high                           |
+|                                   | approves all decisions                      |                               |                                     |
++-----------------------------------+---------------------------------------------+-------------------------------+-------------------------------------+
+| Players / End-Users               | Game must satisfy them                      | High                          | Medium                              |
+|                                   | feedback affects features                   |                               |                                     |
++-----------------------------------+---------------------------------------------+-------------------------------+-------------------------------------+
+| Developers                        | Implement the system                        | Low                           | Medium                              |
++-----------------------------------+---------------------------------------------+-------------------------------+-------------------------------------+
+| Software Architects               | System design, distributed architecture     | Medium                        | High                                |
++-----------------------------------+---------------------------------------------+-------------------------------+-------------------------------------+
+| System Admins / DevOps            | Uptime, hosting, scaling                    | Medium                        | Medium                              |
++-----------------------------------+---------------------------------------------+-------------------------------+-------------------------------------+
+| Cloud / Server Provider           | Required for an always-online game          | High                          | Medium                              |
++-----------------------------------+---------------------------------------------+-------------------------------+-------------------------------------+
+| Game Designers                    | Gameplay quality, level design              | Medium–High                   | Low–Medium                          |
++-----------------------------------+---------------------------------------------+-------------------------------+-------------------------------------+
+| QA / Testers                      | Ensure quality, avoid regressions           | Medium                        | Medium                              |
++-----------------------------------+---------------------------------------------+-------------------------------+-------------------------------------+
+| IT Security                       | Account protection, cheating prevention     | Medium                        | Medium                              |
++-----------------------------------+---------------------------------------------+-------------------------------+-------------------------------------+
+| Support & Helpdesk                | User satisfaction & support                 | Medium                        | Low                                 |
++-----------------------------------+---------------------------------------------+-------------------------------+-------------------------------------+
+| Community & Moderation Team       | Leaderboards, map moderation                | Medium                        | Low                                 |
++-----------------------------------+---------------------------------------------+-------------------------------+-------------------------------------+
+| Project Managers                  | Planning & delivery                         | Medium                        | Medium                              |
++-----------------------------------+---------------------------------------------+-------------------------------+-------------------------------------+
+| External Software / Asset         | Libraries, engines                          | Low–Medium                    | Low                                 |
+| Suppliers                         |                                             |                               |                                     |
++-----------------------------------+---------------------------------------------+-------------------------------+-------------------------------------+
+| Law & Compliance                  | Licensing, data protection                  | Low–Medium                    | Medium                              |
++-----------------------------------+---------------------------------------------+-------------------------------+-------------------------------------+
+
+
+Importance vs. Influence diagram
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. figure:: images/impInfDiagram.svg
+   :width: 100%
+   :align: center
+
+
+List of Concerns
+^^^^^^^^^^^^^^^^
+
+**Customer (HAWKI)**
+
+- Distributed game with central client-server architecture
+- Game should follow basic Sokoban rules
+- Cross-platform client support
+- AI only assisting, not competing
+- Always online, stable system
+- Good user experience and customization
+- Project stays within a predefined budget
+- agreed upon project timeline
+- ROI expectations
+
+**Players/End-Users**
+
+- Playing a sokoban game
+- Fun gameplay, intuitive controls
+- Stable servers and low latency
+- Fair matchmaking in ranked mode
+- Possibility to create, save, and share maps
+- Ability to spectate friends
+- Smooth matchmaking and co-op experience
+- Accessible UI/UX (key bindings, visual aids, color-blind mode)
+- Community interaction
+
+**Developers**
+
+- Clear and feasable requirements
+- Clear priorities
+- Stable technologies (game engines/graphics libraries)
+- Maintainable codebase
+- Manageable workload
+
+**Software Architects**
+
+- Scalable client-server architecture
+- Long term maintainability
+- Clear session management
+- Multiplayer synchronization
+- Secure and fair gameplay
+
+**Game Designers**
+
+- Flexible map editor
+- Validity checks for solvable maps
+- Balanced power-ups and power-downs
+- Clear rules for co-op and time-trial modes
+- No cluttered game boards in multiplayer
+- Power-ups and -downs working correctly
+- Proper tooling support for map creation
+
+**QA / Testers**
+
+- Well-defined scenarios
+- Testable system design
+- Bug-free mechanics, especially multiplayer sync
+- Thorough testing of gameplay features
+- Monitoring of error rates
+- Stable and reliable builds
+
+**System Admins / DevOps**
+
+- Server uptime and monitoring
+- Deployments, updates, backups
+- Cloud resource management
+- Cost-efficient infrastructure usage
+- Cost control mechanisms
+
+**Cloud / Server Provider**
+
+- Reliable hosting
+- Scalable back-end capacity
+- Defined service-level agreements
+
+**Support & Helpdesk**
+
+- Tools to assist players with login issues, bug reports
+- Structured issue resolution workflows to solve most problems
+- Clear error messages from the system
+
+**Community & Moderation Team**
+
+- Manage leaderboards
+- Approve player-created maps
+- Moderate chat/interaction channels
+- Player forum, feedback and a report system
+- Moderation tools
+
+**IT Security**
+
+- Prevent cheating/tampering
+- Secure login/authentication
+- Protect user data
+
+**Law & Compliance**
+
+- Licensing for assets
+- IP rights handling
+- Follow local law regarding a.g. censorship
+- Data protection laws (GDPR, etc.)
+- TOS and PP
+
+**External Suppliers**
+
+- Provide game assets
+- Provide compatible libraries
+
+**Project Managers**
+
+- Scope clarity
+- Timeline management
+- Stakeholder alignment
+- Risk management planning
