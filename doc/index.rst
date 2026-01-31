@@ -13,7 +13,7 @@ The project's software architecture documentation is loosely based on the arc42 
 
     Introduction and Stakeholders <01_intro_and_stakeholders>
     Goals <02_goals>
-    Domain Model <03_domain_model>
+    Domain Model & Use Cases <03_domain_model>
     Requirements and Features <04_requirements_and_features>
     Building Block View <05_building_block_view>
     Runtime View <06_runtime_view>
