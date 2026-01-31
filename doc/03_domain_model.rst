@@ -16,3 +16,9 @@ The domain model captures the following core ideas:
 - **progress and match outcomes**: ``GameSessions`` produce a ``Score`` for each participating ``Player`` and a ``GameResult``, which in case of ranked mode feed into a ``Leaderboard`` with individual ``LeaderboardEntries``.
 - **AI assistance**: An ``AiAssistant`` can support players in non-competitive matches by generating ``Hint``s within a ``GameSession``.
 - **level creation**: A ``LevelDesigner`` builds and structures ``GameBoards`` and all the objects contained on the game boards ``Tiles``.
+
+The following use case diagram shows the the user interaction with the system on a high abstraction level:
+
+.. figure:: images/use_case_diagram.svg
+   :width: 100%
+   :align: center
